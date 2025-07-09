@@ -35,8 +35,12 @@ export default function SignInForm() {
       } else {
         setMsg(data.error || "Нэвтрэхэд алдаа гарлаа.");
       }
-    } catch (err: any) {
-      setMsg("Сүлжээний алдаа.");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setMsg(err.message);
+      } else {
+        setMsg("Сүлжээний алдаа.");
+      }
     }
   }
 
