@@ -5,6 +5,7 @@ interface FileRow {
   id: number;
   category: string;
   filename: string;
+  status: string;
   blobPath: string;
   uploadedAt: string;
 }
@@ -17,7 +18,7 @@ export default function FileList({ userId, refresh }: { userId: string; refresh:
     setLoading(true);
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/files?userId=${userId}`)
       .then(res => res.json())
-      .then(data => setFiles(data))
+      .then(data => { console.log(data); setFiles(data) })
       .finally(() => setLoading(false));
   }, [userId, refresh]);
 
@@ -31,6 +32,7 @@ export default function FileList({ userId, refresh }: { userId: string; refresh:
             <th>Төрөл</th>
             <th>Файлын нэр</th>
             <th>Огноо</th>
+            <th>Төлөв</th>
             <th>Үйлдэл</th>
           </tr>
         </thead>
@@ -40,6 +42,7 @@ export default function FileList({ userId, refresh }: { userId: string; refresh:
               <td>{file.category}</td>
               <td>{file.filename}</td>
               <td>{file.uploadedAt && file.uploadedAt.substring(0, 10)}</td>
+              <td>{file.status}</td>
               <td>
                 <a
                   href={`${process.env.NEXT_PUBLIC_API_URL}/api/files/url?blobPath=${encodeURIComponent(file.blobPath)}`}
